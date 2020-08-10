@@ -8,3 +8,5 @@ The purpose of this is to practice my React knowledge and do something fun.
 ```
 npm start
 ```
+
+![alt text|medium](public/hangman.png)
