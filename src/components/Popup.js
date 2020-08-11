@@ -1,33 +1,79 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { checkWin } from '../helpers/helpers';
+// ({correctLetters, wrongLetters, selectedWord, setPlayable, playAgain}) 
+class Popup extends React.Component {
+    /**
+     * If there is a constructor function in your component, 
+     * this function will be called when the component gets initiated. 
+     */
+    constructor(props) {
+        super(props);
+        this.state = {
+            playable: true,
+            finalMessage: '',
+            finalMessageRevealWord: ''
+        }
 
-const Popup = ({correctLetters, wrongLetters, selectedWord, setPlayable, playAgain}) => {
-  let finalMessage = '';
-  let finalMessageRevealWord = '';
-  let playable = true;
+        /**
+         * For methods in react, the this keyword should represent the component that
+         * owns the method. 
+         * That is why you should use arrow functions
+         */
+       // this.playAgain = this.playAgain.bind(this)
+    }
 
-  if( checkWin(correctLetters, wrongLetters, selectedWord) === 'win' ) {
-    finalMessage = 'Congratulations! You won! 😃';
-    playable = false;
-  } else if( checkWin(correctLetters, wrongLetters, selectedWord) === 'lose' ) {
-    finalMessage = 'Unfortunately you lost. 😕';
-    finalMessageRevealWord = `...the word was: ${selectedWord}`;
-    playable = false;
-  }
+    componentDidUpdate() {
+        if (checkWin(this.props.correctLetters, this.props.wrongLetters, this.props.selectedWord) === 'win') {
+            console.log("winning")
+            // this.setState((prevState) => {
+            //     return {
+            //        ...prevState.playable = false,
+            //        ...prevState.finalMessage= 'Congratulations! You won! 😃',
+            //        ...prevState.finalMessageRevealWord
+            //     }
+            //    }
+            //    );
+        } else if (checkWin(this.props.correctLetters, this.props.wrongLetters, this.props.selectedWord) === 'lose') {
+            console.log("losing")
+            // this.setState(() => {
+            //  return {
+            //     playable: false,
+            //     finalMessage: 'Unfortunately you lost. 😕',
+            //     finalMessageRevealWord:  `...the word was: ${this.props.selectedWord}`
+            //  }
+            // }
+            // );
+            console.log(this.props);
 
-  useEffect(() => {
-    setPlayable(playable);
-  });
+        }
+    }
 
-  return (
-    <div className="popup-container" style={finalMessage !== '' ? {display:'flex'} : {}}>
-      <div className="popup">
-        <h2>{finalMessage}</h2>
-        <h3>{finalMessageRevealWord}</h3>
-        <button onClick={playAgain}>Play Again</button>
-      </div>
-    </div>
-  )
+    playAgain = () => {
+        this.setPlayable = this.props.playable;
+        
+        this.setState(() => {
+            return {
+                playable: true,
+                finalMessage: 'Unfortunately you lost. 😕',
+                finalMessageRevealWord: `...the word was: ${this.props.selectedWord}`
+            }
+        }
+        );
+    }
+
+
+
+    render() {
+        return (
+            <div className="popup-container" style={this.state.finalMessage !== '' ? { display: 'flex' } : {}}>
+                <div className="popup">
+                    <h2>{this.finalMessage}</h2>
+                    <h3>{this.finalMessageRevealWord}</h3>
+                    <button onClick={(e) => this.playAgain(e)}>Play Again</button>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default Popup
