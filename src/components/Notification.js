@@ -5,10 +5,6 @@ import React from 'react';
  * pass showNotification prop
  */
 export default class Notification extends React.Component {
-
-  constructor(props) {
-    super(props)
-  }
   render() {
   return (
       // conditional className, notification shows when prop returns true
